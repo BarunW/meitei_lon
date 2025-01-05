@@ -1,10 +1,10 @@
-package main
+package ast 
 
 import(
     "meitei_lon/token"
 )
 
-type Node interface(){
+type Node interface{
     TokenLiteral() string
 }
 
@@ -18,6 +18,10 @@ type Expression interface{
     expressionNode()
 }
 
+/*================
+    PROGRAM 
+=================*/
+
 type Program struct {
     Statements []Statement
 }
@@ -29,19 +33,19 @@ func(p *Program) TokenLiteral() string{
     return ""
 }
 
-/* ==================
+/*==================
     Identifier 
-    ================
-*/
+================*/
 type Identifier struct {
     Token token.Token
     Value string
 }
-func(i *Identifier) expressionNode(){}
-func(i *Identifier) TokenLiteral() string{
-    i.Token.Literal
-}
 
+func(i *Identifier) expressionNode(){}
+
+func(i *Identifier) TokenLiteral() string{
+    return i.Token.Literal
+}
 
 /*
     ===================
@@ -57,9 +61,8 @@ type LetStatement struct {
 func(l *LetStatement) statementNode(){}
 
 func(l *LetStatement) TokenLiteral() string{
-    l.Token.Literal
+    return l.Token.Literal
 }
-
 
 
 

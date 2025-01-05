@@ -8,9 +8,9 @@ import (
 
 func TestLexer(t *testing.T){
     input := `
-    ꯑꯣꯏꯍꯜꯂꯨ  ꯑ  : ꯃꯁꯤꯡ = ꯵f
+    ꯑꯣꯏꯍꯜꯂꯣ  ꯑ  : ꯃꯁꯤꯡ = ꯵f
     ꯃꯊꯧ  ꯐꯉ꯭ꯀ () { 
-        ꯑꯣꯏꯍꯜꯂꯨ  ꯂꯨ   : ꯃꯁꯤꯡ = ꯵f
+        ꯑꯣꯏꯍꯜꯂꯣ  ꯂꯨ   : ꯃꯁꯤꯡ = ꯵f
         ꯑ  = ꯑ  + ꯂꯨ   
         ꯑꯣꯏꯔꯕ ꯑ  > ꯂꯨ  {
             ꯍꯟꯈꯣ ꯆꯨꯝꯃꯤ
@@ -31,7 +31,7 @@ func TestLexer(t *testing.T){
         expectedTokenType token.TokenType
         expectedLiteral string
     }{
-        { token.LET, "ꯑꯣꯏꯍꯜꯂꯨ" },
+        { token.LET, "ꯑꯣꯏꯍꯜꯂꯣ" },
         { token.IDENT, "ꯑ" },
         { token.COLON, ":" },
         { token.NUMBERS, "ꯃꯁꯤꯡ"},
@@ -42,7 +42,7 @@ func TestLexer(t *testing.T){
         { token.LPAREN, "(" },
         { token.RPAREN, ")" },
         { token.LBRACE, "{" },
-        { token.LET, "ꯑꯣꯏꯍꯜꯂꯨ" },
+        { token.LET, "ꯑꯣꯏꯍꯜꯂꯣ" },
         { token.IDENT, "ꯂꯨ" },
         { token.COLON, ":" },
         { token.NUMBERS, "ꯃꯁꯤꯡ"},

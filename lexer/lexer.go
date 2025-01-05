@@ -4,7 +4,7 @@ import (
 	"meitei_lon/token"
 )
 
-type lexer struct{
+type Lexer struct{
    input []rune 
    inputLen int
    ch    rune
@@ -16,20 +16,20 @@ func newToken(tt token.TokenType, ch rune) token.Token{
     return token.Token{ Type: tt, Literal: string(ch) } 
 }
 
-func NewLexer(input string) *lexer{
+func NewLexer(input string) *Lexer{
     var runeInput = []rune(input)
-    l := &lexer{input : runeInput, inputLen : len(runeInput)}
+    l := &Lexer{input : runeInput, inputLen : len(runeInput)}
     l.readChar()
     return l
 }
 
-func (l *lexer) skipWhiteSpace() {
+func (l *Lexer) skipWhiteSpace() {
 	 for l.ch == ' ' || l.ch == '\t' || l.ch == '\n' || l.ch == '\r' {
 		 l.readChar()
 	 }
 }
 
-func(l *lexer) readChar(){
+func(l *Lexer) readChar(){
    if l.readPosition >= l.inputLen {
       l.ch = 0 
    } else {
@@ -48,21 +48,21 @@ func isDigit(ch rune) bool{
     return '꯹' >= ch && '꯰' <= ch 
 }
 
-func(l *lexer) readIdentifier() string{
+func(l *Lexer) readIdentifier() string{
     position := l.position
     for isLetter(l.ch){
         l.readChar()
     } 
     return string(l.input[position:l.position])
 }
-func(l *lexer) peekChar() rune{
+func(l *Lexer) peekChar() rune{
     if l.readPosition >= l.inputLen{
         return 0
     }
     return l.input[l.readPosition]
 }
 
-func(l *lexer) readNumber() (string, string){
+func(l *Lexer) readNumber() (string, string){
     var numberType string = token.INT 
     position := l.position   
     for isDigit(l.ch){
@@ -75,7 +75,7 @@ func(l *lexer) readNumber() (string, string){
     return number, numberType
 }
 
-func(l *lexer) NextToken() token.Token{
+func(l *Lexer) NextToken() token.Token{
     tok := token.Token{}     
     l.skipWhiteSpace()
 
