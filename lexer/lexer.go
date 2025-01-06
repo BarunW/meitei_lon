@@ -23,8 +23,8 @@ func NewLexer(input string) *Lexer{
     return l
 }
 
-func (l *Lexer) skipWhiteSpace() {
-	 for l.ch == ' ' || l.ch == '\t' || l.ch == '\n' || l.ch == '\r' {
+func (l *Lexer) skipWhiteSpace() {    
+	 for l.ch == ' ' || l.ch == '\t'|| l.ch == '\r' {
 		 l.readChar()
 	 }
 }
@@ -55,6 +55,7 @@ func(l *Lexer) readIdentifier() string{
     } 
     return string(l.input[position:l.position])
 }
+
 func(l *Lexer) peekChar() rune{
     if l.readPosition >= l.inputLen{
         return 0
@@ -63,15 +64,15 @@ func(l *Lexer) peekChar() rune{
 }
 
 func(l *Lexer) readNumber() (string, string){
-    var numberType string = token.INT 
-    position := l.position   
-    for isDigit(l.ch){
-        l.readChar()
-    }
+    var isFloat uint8 = 0
 
-    if l.peekChar() == 'f'{  numberType = token.FLOAT } 
-    number := string(l.input[position:l.position]) 
-    l.readChar()
+    var numberType string = token.INT    
+    position := l.position   
+    for isDigit(l.ch) || l.ch == '.' && isFloat <= 1{
+        if l.ch == '.'{ isFloat += 1; numberType  = token.FLOAT}
+        l.readChar()
+    }  
+    number := string(l.input[position:l.position])
     return number, numberType
 }
 
@@ -109,6 +110,8 @@ func(l *Lexer) NextToken() token.Token{
         } else {
             tok = newToken(token.ASSIGN, l.ch)
         }
+    case '\n':
+        tok = newToken(token.NEXT_LINE, l.ch)
     case '+':
         tok = newToken(token.PLUS, l.ch)
     case '-':
@@ -121,6 +124,14 @@ func(l *Lexer) NextToken() token.Token{
         tok = newToken(token.GT, l.ch)
     case '<':
         tok = newToken(token.LT, l.ch)
+    case '.':
+        if isDigit(l.peekChar()){     
+            literal, numType := l.readNumber() 
+            literal = "꯰"+literal
+            tok.Type = token.LookUpDataType(numType)
+            tok.Literal = literal
+            return tok
+        } else { tok = newToken(token.ILLEGAL, l.ch) }
     case 0:
         tok.Type = token.EOF
         tok.Literal = ""

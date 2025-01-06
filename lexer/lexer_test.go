@@ -8,17 +8,17 @@ import (
 
 func TestLexer(t *testing.T){
     input := `
-    ꯑꯣꯏꯍꯜꯂꯣ  ꯑ  : ꯃꯁꯤꯡ = ꯵f
+    ꯑꯣꯏꯍꯜꯂꯣ  ꯑ  : ꯃꯁꯤꯡ = .꯵꯰  
     ꯃꯊꯧ  ꯐꯉ꯭ꯀ () { 
-        ꯑꯣꯏꯍꯜꯂꯣ  ꯂꯨ   : ꯃꯁꯤꯡ = ꯵f
-        ꯑ  = ꯑ  + ꯂꯨ   
+        ꯑꯣꯏꯍꯜꯂꯣ  ꯂꯨ   : ꯃꯁꯤꯡ  = ꯵.꯰ 
+        ꯑ  = ꯑ  + ꯂꯨ  
         ꯑꯣꯏꯔꯕ ꯑ  > ꯂꯨ  {
-            ꯍꯟꯈꯣ ꯆꯨꯝꯃꯤ
+            ꯍꯟꯈꯣ ꯆꯨꯝꯃꯤ 
         }  ꯑꯣꯏꯗꯔꯕ {
-            ꯍꯟꯈꯣ ꯂꯥꯜꯂꯤ
+            ꯍꯟꯈꯣ ꯂꯥꯜꯂꯤ  
         }
     }
-    ꯵ < ꯷   
+    ꯵  < ꯷   
     ꯷  == ꯷  
     ꯵  != ꯷   
     !-/*
@@ -31,58 +31,72 @@ func TestLexer(t *testing.T){
         expectedTokenType token.TokenType
         expectedLiteral string
     }{
+        { token.NEXT_LINE, "\n" },
         { token.LET, "ꯑꯣꯏꯍꯜꯂꯣ" },
         { token.IDENT, "ꯑ" },
         { token.COLON, ":" },
         { token.NUMBERS, "ꯃꯁꯤꯡ"},
         { token.ASSIGN, "=" },
-        { token.INT,  "꯵"},
+        { token.FLOAT,  "꯰.꯵꯰"},
+        { token.NEXT_LINE, "\n" },
         { token.FUNCTION, "ꯃꯊꯧ" },  
         { token.IDENT,  "ꯐꯉ꯭ꯀ" },
         { token.LPAREN, "(" },
         { token.RPAREN, ")" },
         { token.LBRACE, "{" },
+        { token.NEXT_LINE, "\n" },
         { token.LET, "ꯑꯣꯏꯍꯜꯂꯣ" },
         { token.IDENT, "ꯂꯨ" },
         { token.COLON, ":" },
         { token.NUMBERS, "ꯃꯁꯤꯡ"},
         { token.ASSIGN, "=" },
-        { token.INT,  "꯵"},
+        { token.FLOAT,  "꯵.꯰"},
+        { token.NEXT_LINE, "\n" },
         { token.IDENT, "ꯑ" },
         { token.ASSIGN, "=" },
         { token.IDENT, "ꯑ" },
         { token.PLUS, "+" },
         { token.IDENT, "ꯂꯨ" },
+        { token.NEXT_LINE, "\n" },
         { token.IF, "ꯑꯣꯏꯔꯕ"},   
         { token.IDENT, "ꯑ" },
         { token.GT, ">" },
         { token.IDENT, "ꯂꯨ" },
         { token.LBRACE, "{" },
+        { token.NEXT_LINE, "\n" },
         { token.RETURN, "ꯍꯟꯈꯣ" },
         { token.TRUE, "ꯆꯨꯝꯃꯤ" },
+        { token.NEXT_LINE, "\n" },
         { token.RBRACE, "}" },
         { token.ELSE, "ꯑꯣꯏꯗꯔꯕ" },
         { token.LBRACE, "{" },
+        { token.NEXT_LINE, "\n" },
         { token.RETURN, "ꯍꯟꯈꯣ" },
         { token.FALSE, "ꯂꯥꯜꯂꯤ" },
+        { token.NEXT_LINE, "\n" },
         { token.RBRACE, "}" },
+        { token.NEXT_LINE, "\n" },
         { token.RBRACE, "}" },
+        { token.NEXT_LINE, "\n" },
         { token.INT, "꯵" },
         { token.LT, "<" },
         { token.INT, "꯷" },
+        { token.NEXT_LINE, "\n" },
         { token.INT, "꯷" },
         { token.EQ, "==" },
         { token.INT, "꯷" },
+        { token.NEXT_LINE, "\n" },
         { token.INT, "꯵" },
         { token.NOTEQ, "!=" },
         { token.INT, "꯷" },
+        { token.NEXT_LINE, "\n" },
         { token.BANG, "!" },
         { token.MINUS, "-" },
         { token.SLASH, "/" },
         { token.ASTERIK, "*" },
     }
     
-
+    
     for i, tt:= range test {
         tok := l.NextToken() 
         fmt.Printf("%+v\n", tok)
@@ -93,7 +107,6 @@ func TestLexer(t *testing.T){
         if tok.Literal != tt.expectedLiteral {
             t.Fatalf("tests[%d] expect-literal=%q got=%q", i, tt.expectedLiteral, tok.Literal)
         }
-
-    }
+    }    
 
 }

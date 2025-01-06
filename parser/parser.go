@@ -9,7 +9,8 @@ import(
 
 type Parser struct {
     l *lexer.Lexer
- 
+    
+    prevToken token.Token
     curToken token.Token
     peekToken token.Token
 }
@@ -53,6 +54,12 @@ func(p *Parser) parseStatement() ast.Statement{
     }
 }
 
+func(p *Parser) skipToken() {
+   if p.curTokenIs(token.NEXT_LINE){
+       p.nextToken()
+   }
+}
+
 func(p *Parser) parseLetStatement() *ast.LetStatement {
     stmnt := &ast.LetStatement{ Token : p.curToken }
 
@@ -69,8 +76,11 @@ func(p *Parser) parseLetStatement() *ast.LetStatement {
       // condition for advancing the nextToken 
       // so that we can exit expression parsing
       // expression parsing
-
-    fmt.Println("stmnt", stmnt) 
+    for (!p.curTokenIs(token.NEXT_LINE) && !p.curTokenIs(token.EOF)){
+        p.nextToken()
+    }
+    letStmtn := *stmnt.Name 
+    fmt.Printf("stmnt %+v stmnt Name %+v\n", stmnt, letStmtn) 
     return stmnt
 }
 

@@ -78,6 +78,7 @@ const (
     RPAREN = ")"
     LBRACE = "{"
     RBRACE = "}"
+    NEXT_LINE = "\n"
 
     // Keywords
     FUNCTION    = "FUNCTION"
@@ -87,5 +88,6 @@ const (
     IF          = "IF"
     ELSE        = "ELSE"
     RETURN      = "RETURN"
+
 
 )

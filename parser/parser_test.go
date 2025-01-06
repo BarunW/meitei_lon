@@ -9,10 +9,9 @@ import (
 
 func TestLetStatement(t *testing.T){
 
-    input :=`
-    ꯑꯣꯏꯍꯜꯂꯣ ꯅꯝ = ꯵
+    input :=`ꯑꯣꯏꯍꯜꯂꯣ ꯅꯝ = ꯵
     ꯑꯣꯏꯍꯜꯂꯣ ꯅꯝ_ = ꯷
-    ꯑꯣꯏꯍꯜꯂꯣ ꯐꯨ_ꯕꯥꯔ = ꯶꯹꯱꯹꯳꯹꯱꯸꯳꯰ `
+    ꯑꯣꯏꯍꯜꯂꯣ ꯐꯨ_ꯕꯥꯔ = ꯶꯹꯱꯹꯳꯹꯱꯸꯳꯰`
 
     l := lexer.NewLexer(input) 
     p := NewParser(l)
